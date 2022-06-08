@@ -30,11 +30,13 @@ public class WatchItem {
 
     private Integer rating;
 
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
 
