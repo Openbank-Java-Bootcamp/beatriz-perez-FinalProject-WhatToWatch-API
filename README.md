@@ -6,3 +6,5 @@ A working REST API, built by [Beatriz Perez](https://github.com/beatriz-perez) u
 
 ## API documentation
 
+initial DB tables:
+![db tables diagram](./src/images/initialDbTables.png)
