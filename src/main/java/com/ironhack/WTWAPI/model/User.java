@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,6 +21,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "join_date")
+    private LocalDate joinDate;
     @NotEmpty(message = "You must have a name")
     private String name;
     @NotEmpty(message = "You must have a username")
@@ -36,11 +39,11 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-
     public User(String name, String username, String email, String password) {
+        this.joinDate = LocalDate.now(); // Current date
         this.name = name;
         this.username = username;
         this.email = email;

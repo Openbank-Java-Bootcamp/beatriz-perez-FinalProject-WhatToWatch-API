@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,16 +25,16 @@ public class WatchList {
     @NotEmpty(message = "WatchLists must have a description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @NotNull(message = "WatchLists must have an owner")
     private User owner;
 
-    @ManyToMany
-    private Collection<User> participants;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> participants;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Column(name = "watch_items")
-    private Collection<WatchItem> watchItems;
+    private Set<WatchItem> watchItems;
 
 
     public WatchList(String name, String description) {
