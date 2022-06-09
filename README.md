@@ -6,5 +6,8 @@ A working REST API, built by [Beatriz Perez](https://github.com/beatriz-perez) u
 
 ## API documentation
 
+
+Swagger API documentation on: [swagger](http://localhost:5005/swagger-ui.html)
+
 DB tables:
 ![db tables update 1](./src/images/DbTablesUpdate1.png)

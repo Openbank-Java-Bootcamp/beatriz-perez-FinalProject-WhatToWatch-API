@@ -54,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // SIGN UP
         http.authorizeRequests().antMatchers("/api/auth/signup").permitAll();
         // ----------------------------------------------------------------------------------------------------------------------
+        http.authorizeRequests().antMatchers("/", "/csrf", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll();
 
 
         // For any request you should de authenticated (logged in):
