@@ -29,10 +29,8 @@ public class WatchItem {
     private String imageUrl;
     private String rating;
 
-    /*
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
-    */
 
     public WatchItem(String imdbId, String type, String title, String synopsis, String imageUrl, String rating) {
         this.imdbId = imdbId;
