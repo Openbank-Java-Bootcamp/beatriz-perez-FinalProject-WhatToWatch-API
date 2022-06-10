@@ -19,26 +19,27 @@ public class WatchItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String IMBbId;
+    private String imdbId;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
+    private String type;
     private String title;
+    @Lob
     private String synopsis;
     @Column(name = "image_url")
     private String imageUrl;
-    private Integer rating;
+    private String rating;
 
+    /*
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
+    */
 
-    public WatchItem(String IMBbId, Type type, String title, String synopsis, String imageUrl, Integer rating, List<Genre> genres) {
-        this.IMBbId = IMBbId;
+    public WatchItem(String imdbId, String type, String title, String synopsis, String imageUrl, String rating) {
+        this.imdbId = imdbId;
         this.type = type;
         this.title = title;
         this.synopsis = synopsis;
         this.imageUrl = imageUrl;
         this.rating = rating;
-        this.genres = genres;
     }
 }

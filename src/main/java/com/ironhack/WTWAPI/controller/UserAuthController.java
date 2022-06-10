@@ -26,15 +26,13 @@ public class UserAuthController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public User saveUser(@RequestBody @Valid User user) {
-        return userService.saveUser(user);
-    }
+    public User saveUser(@RequestBody @Valid User user) {return userService.saveUser(user);}
 
     @GetMapping("/verify")
     @ResponseStatus(HttpStatus.OK)
     public String verifyToken(Authentication authentication) {
         String email = (String) authentication.getPrincipal();
-        User userFromDb = userRepository.findByEmail(email);
+        User userFromDb = userRepository.findByEmail(email).get();
         UserVerifyDTO userVerifyDTO = new UserVerifyDTO(userFromDb.getUsername(), userFromDb.getImageUrl());
         Gson gson = new Gson();
         String userDetails = gson.toJson(userVerifyDTO);

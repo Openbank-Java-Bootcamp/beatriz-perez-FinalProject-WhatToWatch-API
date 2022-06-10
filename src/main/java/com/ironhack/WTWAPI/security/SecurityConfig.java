@@ -53,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/auth/login/**").permitAll();
         // SIGN UP
         http.authorizeRequests().antMatchers("/api/auth/signup").permitAll();
+        // ADD WATCHITEM TO DB
+        http.authorizeRequests().antMatchers("/api/items/new").permitAll();
         // ----------------------------------------------------------------------------------------------------------------------
         http.authorizeRequests().antMatchers("/", "/csrf", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll();
 

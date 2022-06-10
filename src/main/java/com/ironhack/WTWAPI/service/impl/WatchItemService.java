@@ -1,6 +1,5 @@
 package com.ironhack.WTWAPI.service.impl;
 
-import com.ironhack.WTWAPI.model.User;
 import com.ironhack.WTWAPI.model.WatchItem;
 import com.ironhack.WTWAPI.repository.WatchItemRepository;
 import com.ironhack.WTWAPI.service.interfaces.WatchItemServiceInterface;
@@ -21,10 +20,11 @@ public class WatchItemService implements WatchItemServiceInterface {
 
     public WatchItem saveItem(WatchItem item) {
         // Handle possible errors:
-        if(watchItemRepository.findByIMBbId(item.getIMBbId()).isPresent()) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Element already exists" ); }
+        if(watchItemRepository.findByImdbId(item.getImdbId()).isPresent()) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Element already exists" ); }
         // Save new item:
-        log.info("Saving a new WatchItem {} in the DB", item.getTitle());
-        return watchItemRepository.save(item);
+        WatchItem newItem = new WatchItem(item.getImdbId(), item.getType(), item.getTitle(), item.getSynopsis(), item.getImageUrl(), item.getRating());
+        log.info("Saving a new WatchItem {} in the DB", newItem.getTitle());
+        return watchItemRepository.save(newItem);
     }
 
     public List<WatchItem> getItems() {
