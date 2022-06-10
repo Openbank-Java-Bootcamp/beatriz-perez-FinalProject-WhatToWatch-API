@@ -1,6 +1,5 @@
 package com.ironhack.WTWAPI.model;
 
-import com.ironhack.WTWAPI.enums.Status;
 import com.ironhack.WTWAPI.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,33 +19,26 @@ public class WatchItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String title;
-
-    private String synopsis;
-
-    @Column(name = "image_url")
-    private String imageUrl;
-
-    private Integer rating;
+    private String IMBbId;
 
     @Enumerated(EnumType.STRING)
     private Type type;
+    private String title;
+    private String synopsis;
+    @Column(name = "image_url")
+    private String imageUrl;
+    private Integer rating;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-
-    public WatchItem(String title, String synopsis, String imageUrl, Integer rating, Type type, List<Genre> genres, Status status) {
+    public WatchItem(String IMBbId, Type type, String title, String synopsis, String imageUrl, Integer rating, List<Genre> genres) {
+        this.IMBbId = IMBbId;
+        this.type = type;
         this.title = title;
         this.synopsis = synopsis;
         this.imageUrl = imageUrl;
         this.rating = rating;
-        this.type = type;
         this.genres = genres;
-        this.status = status;
     }
 }
