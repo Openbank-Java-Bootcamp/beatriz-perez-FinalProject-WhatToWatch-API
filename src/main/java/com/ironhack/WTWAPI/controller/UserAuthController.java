@@ -33,7 +33,7 @@ public class UserAuthController {
     public String verifyToken(Authentication authentication) {
         String email = (String) authentication.getPrincipal();
         User userFromDb = userRepository.findByEmail(email).get();
-        UserVerifyDTO userVerifyDTO = new UserVerifyDTO(userFromDb.getUsername(), userFromDb.getImageUrl());
+        UserVerifyDTO userVerifyDTO = new UserVerifyDTO(userFromDb.getId(), userFromDb.getUsername(), userFromDb.getImageUrl());
         Gson gson = new Gson();
         String userDetails = gson.toJson(userVerifyDTO);
         return userDetails;

@@ -33,7 +33,7 @@ public class WatchItemService implements WatchItemServiceInterface {
         if(watchItemRepository.findByImdbId(item.getImdbId()).isPresent()) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Element already exists" ); }
         // Save new item:
         log.info("Saving a new WatchItem {} in the DB", item.getTitle());
-        WatchItem newItem = new WatchItem(item.getImdbId(), item.getType(), item.getTitle(), item.getSynopsis(), item.getImageUrl(), item.getRating());
+        WatchItem newItem = new WatchItem(item.getImdbId(), item.getType(), item.getTitle(), item.getSynopsis(), item.getImage(), item.getRating());
         WatchItem dbItem = watchItemRepository.save(newItem);
         // Add genres to item:
         for (Genre genre:item.getGenres()) {

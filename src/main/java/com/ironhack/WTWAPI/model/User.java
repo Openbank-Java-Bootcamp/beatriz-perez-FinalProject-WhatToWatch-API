@@ -38,7 +38,6 @@ public class User {
     private String password;
     @Column(name = "image_url")
     private String imageUrl;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 

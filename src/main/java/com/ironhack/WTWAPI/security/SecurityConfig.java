@@ -48,16 +48,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         // ----------------------------------------------------------------------------------------------------------------------
-        // ANYONE can access:
-        // LOG IN
-        http.authorizeRequests().antMatchers("/api/auth/login/**").permitAll();
+        // anyone can access:
         // SIGN UP
         http.authorizeRequests().antMatchers("/api/auth/signup").permitAll();
-        // ADD WATCHITEM TO DB
-        http.authorizeRequests().antMatchers("/api/items/new").permitAll();
-        // ----------------------------------------------------------------------------------------------------------------------
-        http.authorizeRequests().antMatchers("/", "/csrf", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/verify").permitAll();
+        // LOG IN
+        http.authorizeRequests().antMatchers("/api/auth/login/**").permitAll();
 
+        // get a list of ALL USERS:
+        http.authorizeRequests().antMatchers("/api/users").permitAll();
+        // get a USER BY ID:
+        http.authorizeRequests().antMatchers("/api/users/{id}").permitAll();
+
+        // ADD A WATCH-ITEM to the db:
+        http.authorizeRequests().antMatchers("/api/items/new").permitAll();
+        // get a list of ALL WATCH-ITEMS
+        http.authorizeRequests().antMatchers("/api/items").permitAll();
+        // get a WATCH-ITEM BY ID
+        http.authorizeRequests().antMatchers("/api/items/{id}").permitAll();
+
+        // get a list of ALL GENRES
+        http.authorizeRequests().antMatchers("/api/genres").permitAll();
+
+        // ADD A WATCH-LIST to the db:
+        http.authorizeRequests().antMatchers("/api/lists/new").permitAll();
+        // get a list of ALL WATCH-LISTS
+        http.authorizeRequests().antMatchers("/api/lists").permitAll();
+        // get a WATCH-LIST BY ID
+        http.authorizeRequests().antMatchers("/api/lists/{id}").permitAll();
+
+
+        // ----------------------------------------------------------------------------------------------------------------------
+
+        // Swagger api documentation:
+        http.authorizeRequests().antMatchers("/", "/csrf", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll();
 
         // For any request you should de authenticated (logged in):
         http.authorizeRequests().anyRequest().authenticated();

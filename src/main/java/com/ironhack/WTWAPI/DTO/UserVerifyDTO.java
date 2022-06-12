@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class UserVerifyDTO {
 
+    private Long id;
     private String username;
     private String imageUrl;
 

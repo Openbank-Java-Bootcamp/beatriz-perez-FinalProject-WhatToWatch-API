@@ -36,9 +36,9 @@ public class WatchList {
     @Column(name = "watch_items")
     private Set<WatchItem> watchItems;
 
-
-    public WatchList(String name, String description) {
+    public WatchList(String name, String description, User owner) {
         this.name = name;
         this.description = description;
+        this.owner = owner;
     }
 }
