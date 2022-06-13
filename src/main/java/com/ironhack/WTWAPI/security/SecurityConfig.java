@@ -60,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/users").permitAll();
         // get a USER BY ID:
         http.authorizeRequests().antMatchers("/api/users/{id}").permitAll();
+        // get a list of USERS BY USERNAME OR EMAIL:
+        http.authorizeRequests().antMatchers("/api/users/search/{string}").permitAll();
 
         // ----------------------------------------------------------------------------------------------------------------------
         // ----- ITEMS ----------------------------------------------------------------------------------------------------------

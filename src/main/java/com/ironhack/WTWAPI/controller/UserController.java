@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -30,5 +31,9 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-
+    @GetMapping("/users/search/{string}")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<User> getUserByNameOrEmail(@PathVariable(name = "string") String string) {
+        return userService.getUserByNameOrEmail(string);
+    }
 }

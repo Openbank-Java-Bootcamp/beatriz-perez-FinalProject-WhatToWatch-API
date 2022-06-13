@@ -5,7 +5,6 @@ import com.ironhack.WTWAPI.model.User;
 import com.ironhack.WTWAPI.model.WatchList;
 import com.ironhack.WTWAPI.repository.RoleRepository;
 import com.ironhack.WTWAPI.repository.UserRepository;
-import com.ironhack.WTWAPI.repository.WatchItemRepository;
 import com.ironhack.WTWAPI.repository.WatchListRepository;
 import com.ironhack.WTWAPI.service.interfaces.RoleServiceInterface;
 import com.ironhack.WTWAPI.service.interfaces.UserServiceInterface;
@@ -20,10 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -67,6 +63,16 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+    public Set<User> getUserByNameOrEmail(String string) {
+        log.info("Fetching users containing {}, string");
+        Set<User> users = new HashSet<>();
+        users.addAll(userRepository.findByUsernameContaining(string));
+        users.addAll(userRepository.findByEmailStartingWith(string));
+        // Handle possible errors:
+        if(users.size() == 0) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "No elements to show" ); }
+        // Return results
+        return users;
     }
 
     public void addUserToWatchListParticipants(Long userId, Long WatchListId) {

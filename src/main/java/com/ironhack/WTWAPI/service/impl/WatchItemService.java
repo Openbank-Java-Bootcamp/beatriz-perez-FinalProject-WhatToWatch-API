@@ -92,7 +92,7 @@ public class WatchItemService implements WatchItemServiceInterface {
         // Handle possible errors:
         if(item.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Item not found" ); }
         if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
-        if(list.get().getWatchItems().contains(item.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "This item already exists in list's items" ); }
+        if(list.get().getWatchItems().contains(item.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, that list already contains this title!" ); }
         // Modify watchList's set of items:
         list.get().getWatchItems().add(item.get());
         // Save modified watchList
