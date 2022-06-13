@@ -8,4 +8,6 @@ public interface UserServiceInterface {
     List<User> getUsers();
 
     User getUserById(Long userId);
+
+    void addUserToWatchListParticipants(Long userId, Long WatchListId);
 }

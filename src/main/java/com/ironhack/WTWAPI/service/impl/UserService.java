@@ -2,8 +2,11 @@ package com.ironhack.WTWAPI.service.impl;
 
 import com.ironhack.WTWAPI.model.Role;
 import com.ironhack.WTWAPI.model.User;
+import com.ironhack.WTWAPI.model.WatchList;
 import com.ironhack.WTWAPI.repository.RoleRepository;
 import com.ironhack.WTWAPI.repository.UserRepository;
+import com.ironhack.WTWAPI.repository.WatchItemRepository;
+import com.ironhack.WTWAPI.repository.WatchListRepository;
 import com.ironhack.WTWAPI.service.interfaces.RoleServiceInterface;
 import com.ironhack.WTWAPI.service.interfaces.UserServiceInterface;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,8 @@ public class UserService implements UserServiceInterface, UserDetailsService {
     private RoleServiceInterface roleService;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private WatchListRepository watchListRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -63,6 +68,20 @@ public class UserService implements UserServiceInterface, UserDetailsService {
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
+
+    public void addUserToWatchListParticipants(Long userId, Long WatchListId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchList> list = watchListRepository.findById(WatchListId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "This user already exists in list's participants" ); }
+        // Modify watchList's set of participants:
+        list.get().getParticipants().add(user.get());
+        // Save modified watchList
+        watchListRepository.save(list.get());
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

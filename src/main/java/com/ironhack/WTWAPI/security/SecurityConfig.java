@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
@@ -60,12 +61,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // get a USER BY ID:
         http.authorizeRequests().antMatchers("/api/users/{id}").permitAll();
 
+        // ----------------------------------------------------------------------------------------------------------------------
+        // ----- ITEMS ----------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------------------
         // ADD A WATCH-ITEM to the db:
-        http.authorizeRequests().antMatchers("/api/items/new").permitAll();
+        http.authorizeRequests().antMatchers(POST, "/api/items/new").permitAll();
         // get a list of ALL WATCH-ITEMS
-        http.authorizeRequests().antMatchers("/api/items").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/items").permitAll();
         // get a WATCH-ITEM BY ID
-        http.authorizeRequests().antMatchers("/api/items/{id}").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/items/{id}").permitAll();
+        // get a WATCH-ITEM BY IMDb ID
+        http.authorizeRequests().antMatchers(GET, "/api/items/imdb/{id}").permitAll();
+        // add a WATCH-ITEM to a WATCH-LIST
+        http.authorizeRequests().antMatchers(PATCH, "/api/items/add-to-list/{listId}").permitAll();
+        // add a WATCH-ITEM to the DB and to a WATCH-LIST
+        http.authorizeRequests().antMatchers(POST, "/api/items/new/add-to-list/{listId}").permitAll();
 
         // get a list of ALL GENRES
         http.authorizeRequests().antMatchers("/api/genres").permitAll();
@@ -74,6 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/lists/new").permitAll();
         // get a list of ALL WATCH-LISTS
         http.authorizeRequests().antMatchers("/api/lists").permitAll();
+        // get a list of ALL WATCH-LISTS by OWNER
+        http.authorizeRequests().antMatchers("/api/lists/owner/{ownerId}").permitAll();
         // get a WATCH-LIST BY ID
         http.authorizeRequests().antMatchers("/api/lists/{id}").permitAll();
 

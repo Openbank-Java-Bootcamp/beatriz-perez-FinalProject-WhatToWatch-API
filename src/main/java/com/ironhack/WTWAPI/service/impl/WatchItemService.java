@@ -1,11 +1,12 @@
 package com.ironhack.WTWAPI.service.impl;
 
+import com.ironhack.WTWAPI.DTO.IdOnlyDTO;
 import com.ironhack.WTWAPI.model.Genre;
-import com.ironhack.WTWAPI.model.Role;
-import com.ironhack.WTWAPI.model.User;
 import com.ironhack.WTWAPI.model.WatchItem;
+import com.ironhack.WTWAPI.model.WatchList;
 import com.ironhack.WTWAPI.repository.GenreRepository;
 import com.ironhack.WTWAPI.repository.WatchItemRepository;
+import com.ironhack.WTWAPI.repository.WatchListRepository;
 import com.ironhack.WTWAPI.service.interfaces.GenreServiceInterface;
 import com.ironhack.WTWAPI.service.interfaces.WatchItemServiceInterface;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ public class WatchItemService implements WatchItemServiceInterface {
 
     @Autowired
     private WatchItemRepository watchItemRepository;
+    @Autowired
+    private WatchListRepository watchListRepository;
     @Autowired
     private GenreRepository genreRepository;
     @Autowired
@@ -55,10 +58,44 @@ public class WatchItemService implements WatchItemServiceInterface {
         return watchItemRepository.findAll();
     }
 
+    public List<WatchItem> getItemsByType(String type) {
+        // Handle possible errors:
+        if(watchItemRepository.findAllByType(type).size() == 0) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "No elements to show" ); }
+        // Return results
+        log.info("Fetching all WatchItems with type {}", type);
+        return watchItemRepository.findAllByType(type);
+    }
+
+
     public WatchItem getItemById(Long itemId) {
         // Handle possible errors:
         if(watchItemRepository.findById(itemId).isEmpty()) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No movie or series found with the specified ID"); }
         // Return results
         return watchItemRepository.findById(itemId).get();
+    }
+    public WatchItem getItemByImdbId(String itemImdbId) {
+        // Handle possible errors:
+        if(watchItemRepository.findByImdbId(itemImdbId).isEmpty()) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No movie or series found with the specified ID"); }
+        // Return results
+        return watchItemRepository.findByImdbId(itemImdbId).get();
+    }
+
+    public WatchItem saveItemAndAddToList(WatchItem item, Long listId) {
+        WatchItem dbItem = this.saveItem( item);
+        this.addItemToList( new IdOnlyDTO(item.getId()), listId);
+        return dbItem;
+    }
+
+    public void addItemToList(IdOnlyDTO itemDTO, Long listId) {
+        Optional<WatchItem> item = watchItemRepository.findById(itemDTO.getId());
+        Optional<WatchList> list = watchListRepository.findById(listId);
+        // Handle possible errors:
+        if(item.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Item not found" ); }
+        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(list.get().getWatchItems().contains(item.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "This item already exists in list's items" ); }
+        // Modify watchList's set of items:
+        list.get().getWatchItems().add(item.get());
+        // Save modified watchList
+        watchListRepository.save(list.get());
     }
 }

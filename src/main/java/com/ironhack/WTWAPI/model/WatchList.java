@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,11 +32,11 @@ public class WatchList {
     private User owner;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> participants;
+    private Set<User> participants = new HashSet<User>(){};
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Column(name = "watch_items")
-    private Set<WatchItem> watchItems;
+    private Set<WatchItem> watchItems = new HashSet<WatchItem>(){};
 
     public WatchList(String name, String description, User owner) {
         this.name = name;

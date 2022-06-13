@@ -21,16 +21,13 @@ public class WatchItem {
     private Long id;
     @Column(name = "creation_date")
     private LocalDate creationDate;
-
     private String imdbId;
-
     private String type;
     private String title;
     @Lob
     private String synopsis;
     private String image;
     private String rating;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
 
