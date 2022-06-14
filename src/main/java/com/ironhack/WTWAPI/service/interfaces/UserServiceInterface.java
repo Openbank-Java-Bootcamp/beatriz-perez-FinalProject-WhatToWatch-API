@@ -9,6 +9,4 @@ public interface UserServiceInterface {
     List<User> getUsers();
     User getUserById(Long userId);
     Set<User> getUserByNameOrEmail(String string);
-
-    void addUserToWatchListParticipants(Long userId, Long WatchListId);
 }

@@ -50,11 +50,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // ----------------------------------------------------------------------------------------------------------------------
         // anyone can access:
+
+        // ----------------------------------------------------------------------------------------------------------------------
+        // ----- USERS ----------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------------------
         // SIGN UP
         http.authorizeRequests().antMatchers("/api/auth/signup").permitAll();
-        http.authorizeRequests().antMatchers("/api/auth/verify").permitAll();
         // LOG IN
         http.authorizeRequests().antMatchers("/api/auth/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/verify").permitAll();
 
         // get a list of ALL USERS:
         http.authorizeRequests().antMatchers("/api/users").permitAll();
@@ -79,17 +83,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // add a WATCH-ITEM to the DB and to a WATCH-LIST
         http.authorizeRequests().antMatchers(POST, "/api/items/new/add-to-list/{listId}").permitAll();
 
-        // get a list of ALL GENRES
-        http.authorizeRequests().antMatchers("/api/genres").permitAll();
-
+        // ----------------------------------------------------------------------------------------------------------------------
+        // ----- LISTS ----------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------------------
         // ADD A WATCH-LIST to the db:
         http.authorizeRequests().antMatchers("/api/lists/new").permitAll();
         // get a list of ALL WATCH-LISTS
         http.authorizeRequests().antMatchers("/api/lists").permitAll();
         // get a list of ALL WATCH-LISTS by OWNER
         http.authorizeRequests().antMatchers("/api/lists/owner/{ownerId}").permitAll();
+        // get a list of ALL WATCH-LISTS containing a NAME
+        http.authorizeRequests().antMatchers("/api/lists/name/{name}").permitAll();
         // get a WATCH-LIST BY ID
         http.authorizeRequests().antMatchers("/api/lists/{id}").permitAll();
+
+        // Add a PARTICIPANT to a WATCH-LIST
+        http.authorizeRequests().antMatchers(PATCH, "/api/lists/participant/{listId}").permitAll();
+
+        // ----------------------------------------------------------------------------------------------------------------------
+        // ----- GENRES ----------------------------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------------------------------------------------------
+        // get a list of ALL GENRES
+        http.authorizeRequests().antMatchers("/api/genres").permitAll();
 
 
         // ----------------------------------------------------------------------------------------------------------------------

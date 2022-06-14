@@ -1,5 +1,6 @@
 package com.ironhack.WTWAPI.controller;
 
+import com.ironhack.WTWAPI.DTO.IdOnlyDTO;
 import com.ironhack.WTWAPI.DTO.ListParticipantDTO;
 import com.ironhack.WTWAPI.DTO.NewListDTO;
 import com.ironhack.WTWAPI.model.WatchList;
@@ -42,14 +43,20 @@ public class WatchListController {
     public List<WatchList> getWatchListsByOwner(@PathVariable(name = "ownerId") Long ownerId) {
         return watchListService.getListsByOwner(ownerId);
     }
-
-    /*
-    @PatchMapping("/lists/{id}/add-participant")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateListParticipants(@PathVariable(name = "id") Long listId, @RequestBody ListParticipantDTO listParticipantDTO) {
-        watchListService.;
+    @GetMapping("/lists/name/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<WatchList> getWatchListsByName(@PathVariable(name = "name") String name) {
+        return watchListService.getListsByName(name);
     }
 
+    @PatchMapping("/lists/participant/{listId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addUserToWatchListParticipants(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "listId") String listId) {
+        watchListService.addUserToWatchListParticipants(itemDTO.getId(), Long.parseLong(listId));
+    }
+
+    /*
+    @PatchMapping("/lists/item/{listId}")
      */
 
 

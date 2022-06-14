@@ -27,8 +27,8 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User getUserById(@PathVariable(name = "id") Long userId) {
-        return userService.getUserById(userId);
+    public User getUserById(@PathVariable(name = "id") String userId) {
+        return userService.getUserById(Long.parseLong(userId));
     }
 
     @GetMapping("/users/search/{string}")

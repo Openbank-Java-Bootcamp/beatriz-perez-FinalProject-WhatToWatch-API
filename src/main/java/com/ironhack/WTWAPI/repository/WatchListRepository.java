@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface WatchListRepository extends JpaRepository<WatchList,Long> {
     List<WatchList> findAllByOwner(User owner);
+    List<WatchList> findAllByNameContaining(String name);
 
 }
 

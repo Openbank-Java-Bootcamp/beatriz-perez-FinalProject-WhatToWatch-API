@@ -37,8 +37,20 @@ public class WatchListService implements WatchListServiceInterface {
         log.info("Saving a new WatchList {} in the DB", newListDTO.getName());
         WatchList newList = new WatchList(newListDTO.getName(), newListDTO.getDescription(), owner.get());
         WatchList dbWatchList = watchListRepository.save(newList);
-        userService.addUserToWatchListParticipants(owner.get().getId() ,dbWatchList.getId());
+        this.addUserToWatchListParticipants(owner.get().getId() ,dbWatchList.getId());
         return dbWatchList;
+    }
+    public void addUserToWatchListParticipants(Long userId, Long WatchListId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchList> list = watchListRepository.findById(WatchListId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a participant!" ); }
+        // Modify watchList's set of participants:
+        list.get().getParticipants().add(user.get());
+        // Save modified watchList
+        watchListRepository.save(list.get());
     }
 
     public List<WatchList> getLists() {
@@ -64,5 +76,13 @@ public class WatchListService implements WatchListServiceInterface {
         if(watchListRepository.findById(listId).isEmpty()) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No list found with the specified ID"); }
         // Return results
         return watchListRepository.findById(listId).get();
+    }
+    public List<WatchList> getListsByName(String name) {
+        log.info("Fetching all WatchLists");
+        List<WatchList> lists = watchListRepository.findAllByNameContaining(name);
+        // Handle possible errors:
+        if(lists.size() == 0) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "No elements to show" ); }
+        // Return results
+        return lists;
     }
 }

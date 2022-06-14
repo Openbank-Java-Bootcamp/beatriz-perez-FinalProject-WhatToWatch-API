@@ -75,19 +75,6 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         return users;
     }
 
-    public void addUserToWatchListParticipants(Long userId, Long WatchListId) {
-        Optional<User> user = userRepository.findById(userId);
-        Optional<WatchList> list = watchListRepository.findById(WatchListId);
-        // Handle possible errors:
-        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
-        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
-        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "This user already exists in list's participants" ); }
-        // Modify watchList's set of participants:
-        list.get().getParticipants().add(user.get());
-        // Save modified watchList
-        watchListRepository.save(list.get());
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

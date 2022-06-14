@@ -10,6 +10,8 @@ public interface WatchListServiceInterface {
     WatchList saveList(NewListDTO newListDTO);
     List<WatchList> getLists();
     List<WatchList> getListsByOwner(Long ownerId);
+    List<WatchList> getListsByName(String name);
     WatchList getListById(Long listId);
+    void addUserToWatchListParticipants(Long userId, Long WatchListId);
 
 }
