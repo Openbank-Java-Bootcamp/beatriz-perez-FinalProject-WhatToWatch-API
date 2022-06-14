@@ -94,7 +94,7 @@ public class WatchListService implements WatchListServiceInterface {
         if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
         if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
         if(list.get().getFollowers().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a follower!" ); }
-        // Modify watchList's set of participants:
+        // Modify watchList's set of followers:
         list.get().getFollowers().add(user.get());
         // Save modified watchList
         watchListRepository.save(list.get());
@@ -105,7 +105,7 @@ public class WatchListService implements WatchListServiceInterface {
         // Handle possible errors:
         if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
         if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
-        // Modify watchList's set of participants:
+        // Modify watchList's set of followers:
         list.get().getFollowers().remove(user.get());
         // Save modified watchList
         watchListRepository.save(list.get());

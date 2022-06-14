@@ -58,6 +58,10 @@ public class WatchItemController {
         return watchItemService.saveItemAndAddToList(item, Long.parseLong(listId));
     }
 
-
+    @PatchMapping("/items/watch/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void watch(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "id") String id) {
+        watchItemService.watch(itemDTO.getId(), Long.parseLong(id));
+    }
 
 }

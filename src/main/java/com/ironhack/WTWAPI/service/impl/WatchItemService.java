@@ -2,9 +2,11 @@ package com.ironhack.WTWAPI.service.impl;
 
 import com.ironhack.WTWAPI.DTO.IdOnlyDTO;
 import com.ironhack.WTWAPI.model.Genre;
+import com.ironhack.WTWAPI.model.User;
 import com.ironhack.WTWAPI.model.WatchItem;
 import com.ironhack.WTWAPI.model.WatchList;
 import com.ironhack.WTWAPI.repository.GenreRepository;
+import com.ironhack.WTWAPI.repository.UserRepository;
 import com.ironhack.WTWAPI.repository.WatchItemRepository;
 import com.ironhack.WTWAPI.repository.WatchListRepository;
 import com.ironhack.WTWAPI.service.interfaces.GenreServiceInterface;
@@ -26,6 +28,8 @@ public class WatchItemService implements WatchItemServiceInterface {
     private WatchItemRepository watchItemRepository;
     @Autowired
     private WatchListRepository watchListRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private GenreRepository genreRepository;
     @Autowired
@@ -98,4 +102,18 @@ public class WatchItemService implements WatchItemServiceInterface {
         // Save modified watchList
         watchListRepository.save(list.get());
     }
+
+    public void watch(Long userId, Long WatchItemId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchItem> item = watchItemRepository.findById(WatchItemId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(item.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Item not found" ); }
+        if(item.get().getWatchers().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already set this item as watched!" ); }
+        // Modify watchItem's set of watchers:
+        item.get().getWatchers().add(user.get());
+        // Save modified user
+        watchItemRepository.save(item.get());
+    }
+
 }
