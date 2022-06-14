@@ -1,6 +1,7 @@
 package com.ironhack.WTWAPI.service.impl;
 
 import com.ironhack.WTWAPI.DTO.NewListDTO;
+import com.ironhack.WTWAPI.model.Genre;
 import com.ironhack.WTWAPI.model.User;
 import com.ironhack.WTWAPI.model.WatchList;
 import com.ironhack.WTWAPI.repository.UserRepository;
@@ -33,6 +34,7 @@ public class WatchListService implements WatchListServiceInterface {
         // Handle possible errors:
         Optional<User> owner = userRepository.findById(newListDTO.getOwnerId());
         if(owner.isEmpty()) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found with the specified owner ID"); }
+        if(watchListRepository.findByNameAndOwner(newListDTO.getName(), owner.get()).isPresent()) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, you already have a list with that name!" ); }
         // Save new item:
         log.info("Saving a new WatchList {} in the DB", newListDTO.getName());
         WatchList newList = new WatchList(newListDTO.getName(), newListDTO.getDescription(), owner.get());
@@ -85,4 +87,16 @@ public class WatchListService implements WatchListServiceInterface {
         // Return results
         return lists;
     }
+
+    public WatchList updateList(Long id, WatchList list) {
+        WatchList listFromDB = watchListRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "List not found"));
+        list.setId(listFromDB.getId());
+        return watchListRepository.save(list);
+    }
+
+    public void deleteList(Long id) {
+        WatchList listFromDB = watchListRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "List not found"));
+        watchListRepository.deleteById(id);
+    }
+
 }

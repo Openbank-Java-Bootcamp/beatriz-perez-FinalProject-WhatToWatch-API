@@ -4,11 +4,13 @@ import com.ironhack.WTWAPI.DTO.IdOnlyDTO;
 import com.ironhack.WTWAPI.DTO.ListParticipantDTO;
 import com.ironhack.WTWAPI.DTO.NewListDTO;
 import com.ironhack.WTWAPI.model.WatchList;
+import com.ironhack.WTWAPI.repository.WatchListRepository;
 import com.ironhack.WTWAPI.service.interfaces.WatchListServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -59,5 +61,16 @@ public class WatchListController {
     @PatchMapping("/lists/item/{listId}")
      */
 
+    @PutMapping("/lists/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public WatchList updateList(@PathVariable Long id,@RequestBody @Valid WatchList list){
+        return watchListService.updateList(id, list);
+    }
+
+    @DeleteMapping("/lists/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteList(@PathVariable Long id){
+        watchListService.deleteList(id);
+    }
 
 }

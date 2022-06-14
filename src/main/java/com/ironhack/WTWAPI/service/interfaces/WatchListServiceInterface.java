@@ -13,5 +13,7 @@ public interface WatchListServiceInterface {
     List<WatchList> getListsByName(String name);
     WatchList getListById(Long listId);
     void addUserToWatchListParticipants(Long userId, Long WatchListId);
+    WatchList updateList(Long id, WatchList list);
+    void deleteList(Long id);
 
 }

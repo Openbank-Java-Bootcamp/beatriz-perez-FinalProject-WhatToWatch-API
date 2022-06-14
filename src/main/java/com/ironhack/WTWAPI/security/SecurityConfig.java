@@ -100,6 +100,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Add a PARTICIPANT to a WATCH-LIST
         http.authorizeRequests().antMatchers(PATCH, "/api/lists/participant/{listId}").permitAll();
 
+        // UPDATE a WATCH-LIST BY ID
+        http.authorizeRequests().antMatchers(PUT, "/api/lists/{id}").permitAll();
+
+        // DELETE a WATCH-LIST BY ID
+        http.authorizeRequests().antMatchers(DELETE, "/api/lists/{id}").permitAll();
+
+
         // ----------------------------------------------------------------------------------------------------------------------
         // ----- GENRES ----------------------------------------------------------------------------------------------------------
         // ----------------------------------------------------------------------------------------------------------------------
