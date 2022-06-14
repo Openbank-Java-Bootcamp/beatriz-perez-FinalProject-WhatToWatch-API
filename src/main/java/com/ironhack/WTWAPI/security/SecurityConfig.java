@@ -67,6 +67,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // get a list of USERS BY USERNAME OR EMAIL:
         http.authorizeRequests().antMatchers("/api/users/search/{string}").permitAll();
 
+        // FOLLOW a user
+        http.authorizeRequests().antMatchers(PATCH, "/api/users/follow/{id}").permitAll();
+        // UNFOLLOW a user
+        http.authorizeRequests().antMatchers(PATCH, "/api/users/unfollow/{id}").permitAll();
+        // UPDATE a user by id
+        http.authorizeRequests().antMatchers(PUT, "/api/users/{id}").permitAll();
+        // DELETE a user by id
+        http.authorizeRequests().antMatchers(DELETE, "/api/users/{id}").permitAll();
+
+
         // ----------------------------------------------------------------------------------------------------------------------
         // ----- ITEMS ----------------------------------------------------------------------------------------------------------
         // ----------------------------------------------------------------------------------------------------------------------

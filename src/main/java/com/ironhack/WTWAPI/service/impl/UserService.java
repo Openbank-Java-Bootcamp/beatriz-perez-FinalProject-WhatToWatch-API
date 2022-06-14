@@ -91,4 +91,43 @@ public class UserService implements UserServiceInterface, UserDetailsService {
             return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         }
     }
+
+    public void follow(Long followerId, Long userToFollowId) {
+        Optional<User> follower = userRepository.findById(followerId);
+        Optional<User> userToFollow = userRepository.findById(userToFollowId);
+        // Handle possible errors:
+        if(follower.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(userToFollow.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(userToFollow.get().getFollowers().contains(follower.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a follower!" ); }
+        // Modify user's set of followers:
+        userToFollow.get().getFollowers().add(follower.get());
+        // Save modified user
+        userRepository.save(userToFollow.get());
+    }
+    public void unfollow(Long followerId, Long userToFollowId) {
+        Optional<User> follower = userRepository.findById(followerId);
+        Optional<User> userToFollow = userRepository.findById(userToFollowId);
+        // Handle possible errors:
+        if(follower.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(userToFollow.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        // Modify user's set of followers:
+        userToFollow.get().getFollowers().remove(follower.get());
+        // Save modified user
+        userRepository.save(userToFollow.get());
+    }
+
+    public User updateUser(Long id, User user) {
+        User userFromDB = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        user.setId(userFromDB.getId());
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        User userFromDB = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        userRepository.deleteById(id);
+    }
+
+
+
+
 }
