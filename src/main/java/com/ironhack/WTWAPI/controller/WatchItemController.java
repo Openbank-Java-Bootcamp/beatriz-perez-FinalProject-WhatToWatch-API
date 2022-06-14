@@ -63,5 +63,15 @@ public class WatchItemController {
     public void watch(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "id") String id) {
         watchItemService.watch(itemDTO.getId(), Long.parseLong(id));
     }
+    @PatchMapping("/items/like/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void like(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "id") String id) {
+        watchItemService.like(itemDTO.getId(), Long.parseLong(id));
+    }
+    @PatchMapping("/items/unlike/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unlike(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "id") String id) {
+        watchItemService.unlike(itemDTO.getId(), Long.parseLong(id));
+    }
 
 }

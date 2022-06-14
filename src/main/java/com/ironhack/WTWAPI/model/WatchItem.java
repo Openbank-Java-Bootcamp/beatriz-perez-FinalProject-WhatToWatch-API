@@ -41,6 +41,8 @@ public class WatchItem {
     private List<Genre> genres = new ArrayList<>();
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> watchers = new HashSet<User>(){};
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> likers = new HashSet<User>(){};
 
 
     public WatchItem(String imdbId, String type, String title, String synopsis, String image, String rating, String year, String banner, String companies, String directors, ArrayList<Object> actors, ArrayList<Object> similars, String trailer) {

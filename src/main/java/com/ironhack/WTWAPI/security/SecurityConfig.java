@@ -94,6 +94,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(POST, "/api/items/new/add-to-list/{listId}").permitAll();
         // WATCH an item
         http.authorizeRequests().antMatchers(PATCH, "/api/items/watch/{id}").permitAll();
+        // LIKE an item
+        http.authorizeRequests().antMatchers(PATCH, "/api/items/like/{id}").permitAll();
+        // UNLIKE an item
+        http.authorizeRequests().antMatchers(PATCH, "/api/items/unlike/{id}").permitAll();
 
 
         // ----------------------------------------------------------------------------------------------------------------------

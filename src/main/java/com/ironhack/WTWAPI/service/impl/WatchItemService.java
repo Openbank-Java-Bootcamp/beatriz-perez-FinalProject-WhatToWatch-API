@@ -115,5 +115,27 @@ public class WatchItemService implements WatchItemServiceInterface {
         // Save modified user
         watchItemRepository.save(item.get());
     }
+    public void like(Long userId, Long WatchItemId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchItem> item = watchItemRepository.findById(WatchItemId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(item.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Item not found" ); }
+        // Modify watchItem's set of watchers:
+        item.get().getLikers().add(user.get());
+        // Save modified user
+        watchItemRepository.save(item.get());
+    }
+    public void unlike(Long userId, Long WatchItemId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchItem> item = watchItemRepository.findById(WatchItemId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(item.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Item not found" ); }
+        // Modify watchItem's set of watchers:
+        item.get().getLikers().remove(user.get());
+        // Save modified user
+        watchItemRepository.save(item.get());
+    }
 
 }

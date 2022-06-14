@@ -15,4 +15,6 @@ public interface WatchItemServiceInterface {
     WatchItem saveItemAndAddToList(WatchItem item, Long listId);
     void addItemToList(IdOnlyDTO itemDTO, Long listId);
     void watch(Long userId, Long WatchItemId);
+    void like(Long userId, Long WatchItemId);
+    void unlike(Long userId, Long WatchItemId);
 }
