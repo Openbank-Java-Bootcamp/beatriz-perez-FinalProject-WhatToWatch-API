@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Data
@@ -41,6 +39,9 @@ public class WatchItem {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Genre> genres = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> watchers = new HashSet<User>(){};
+
 
     public WatchItem(String imdbId, String type, String title, String synopsis, String image, String rating, String year, String banner, String companies, String directors, ArrayList<Object> actors, ArrayList<Object> similars, String trailer) {
         this.creationDate = LocalDate.now(); // Current date

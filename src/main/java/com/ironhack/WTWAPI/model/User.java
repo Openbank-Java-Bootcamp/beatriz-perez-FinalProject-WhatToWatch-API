@@ -10,6 +10,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -40,6 +42,9 @@ public class User {
     private String imageUrl;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> followers = new HashSet<User>(){};
+
 
     public User(String name, String username, String email, String password) {
         this.joinDate = LocalDate.now(); // Current date

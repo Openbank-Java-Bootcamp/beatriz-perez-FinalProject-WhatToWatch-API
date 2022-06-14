@@ -30,31 +30,6 @@ public class WatchListService implements WatchListServiceInterface {
     private UserServiceInterface userService;
 
 
-    public WatchList saveList(NewListDTO newListDTO) {
-        // Handle possible errors:
-        Optional<User> owner = userRepository.findById(newListDTO.getOwnerId());
-        if(owner.isEmpty()) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found with the specified owner ID"); }
-        if(watchListRepository.findByNameAndOwner(newListDTO.getName(), owner.get()).isPresent()) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, you already have a list with that name!" ); }
-        // Save new item:
-        log.info("Saving a new WatchList {} in the DB", newListDTO.getName());
-        WatchList newList = new WatchList(newListDTO.getName(), newListDTO.getDescription(), owner.get());
-        WatchList dbWatchList = watchListRepository.save(newList);
-        this.addUserToWatchListParticipants(owner.get().getId() ,dbWatchList.getId());
-        return dbWatchList;
-    }
-    public void addUserToWatchListParticipants(Long userId, Long WatchListId) {
-        Optional<User> user = userRepository.findById(userId);
-        Optional<WatchList> list = watchListRepository.findById(WatchListId);
-        // Handle possible errors:
-        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
-        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
-        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a participant!" ); }
-        // Modify watchList's set of participants:
-        list.get().getParticipants().add(user.get());
-        // Save modified watchList
-        watchListRepository.save(list.get());
-    }
-
     public List<WatchList> getLists() {
         // Handle possible errors:
         if(watchListRepository.findAll().size() == 0) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "No elements to show" ); }
@@ -86,6 +61,55 @@ public class WatchListService implements WatchListServiceInterface {
         if(lists.size() == 0) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "No elements to show" ); }
         // Return results
         return lists;
+    }
+
+    public WatchList saveList(NewListDTO newListDTO) {
+        // Handle possible errors:
+        Optional<User> owner = userRepository.findById(newListDTO.getOwnerId());
+        if(owner.isEmpty()) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found with the specified owner ID"); }
+        if(watchListRepository.findByNameAndOwner(newListDTO.getName(), owner.get()).isPresent()) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, you already have a list with that name!" ); }
+        // Save new item:
+        log.info("Saving a new WatchList {} in the DB", newListDTO.getName());
+        WatchList newList = new WatchList(newListDTO.getName(), newListDTO.getDescription(), owner.get());
+        WatchList dbWatchList = watchListRepository.save(newList);
+        this.addUserToWatchListParticipants(owner.get().getId() ,dbWatchList.getId());
+        return dbWatchList;
+    }
+    public void addUserToWatchListParticipants(Long userId, Long WatchListId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchList> list = watchListRepository.findById(WatchListId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a participant!" ); }
+        // Modify watchList's set of participants:
+        list.get().getParticipants().add(user.get());
+        // Save modified watchList
+        watchListRepository.save(list.get());
+    }
+    public void follow(Long userId, Long WatchListId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchList> list = watchListRepository.findById(WatchListId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a participant!" ); }
+        // Modify watchList's set of participants:
+        list.get().getFollowers().add(user.get());
+        // Save modified watchList
+        watchListRepository.save(list.get());
+    }
+    public void unfollow(Long userId, Long WatchListId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<WatchList> list = watchListRepository.findById(WatchListId);
+        // Handle possible errors:
+        if(user.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User not found" ); }
+        if(list.isEmpty()) { throw new ResponseStatusException( HttpStatus.NOT_FOUND, "List not found" ); }
+        if(list.get().getParticipants().contains(user.get())) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "Oops, this user already is a participant!" ); }
+        // Modify watchList's set of participants:
+        list.get().getFollowers().remove(user.get());
+        // Save modified watchList
+        watchListRepository.save(list.get());
     }
 
     public WatchList updateList(Long id, WatchList list) {

@@ -12,6 +12,8 @@ public interface WatchListServiceInterface {
     List<WatchList> getListsByOwner(Long ownerId);
     List<WatchList> getListsByName(String name);
     WatchList getListById(Long listId);
+    void follow(Long userId, Long WatchListId);
+    void unfollow(Long userId, Long WatchListId);
     void addUserToWatchListParticipants(Long userId, Long WatchListId);
     WatchList updateList(Long id, WatchList list);
     void deleteList(Long id);

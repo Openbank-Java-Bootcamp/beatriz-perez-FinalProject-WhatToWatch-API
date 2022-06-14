@@ -51,6 +51,16 @@ public class WatchListController {
         return watchListService.getListsByName(name);
     }
 
+    @PatchMapping("/lists/follow/{listId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void follow(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "listId") String listId) {
+        watchListService.follow(itemDTO.getId(), Long.parseLong(listId));
+    }
+    @PatchMapping("/lists/unfollow/{listId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unfollow(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "listId") String listId) {
+        watchListService.unfollow(itemDTO.getId(), Long.parseLong(listId));
+    }
     @PatchMapping("/lists/participant/{listId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addUserToWatchListParticipants(@RequestBody @Valid IdOnlyDTO itemDTO, @PathVariable(name = "listId") String listId) {
