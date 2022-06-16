@@ -11,3 +11,13 @@ Swagger API documentation on: [swagger](http://localhost:5005/swagger-ui.html)
 
 DB tables:
 ![db tables update 1](./src/images/DbTablesUpdate1.png)
+
+
+## 1. Description of the project
+## 2. User Stories(If available)
+## 3. Setup(Optional)
+## 4. Technologies Used
+## 5. Models
+## 6. Server routes table(Method, Route or URL, Description as columns)
+## 7. Future Work
+## 8. Resources

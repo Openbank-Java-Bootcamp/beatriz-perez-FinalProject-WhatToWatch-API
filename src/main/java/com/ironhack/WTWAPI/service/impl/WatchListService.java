@@ -44,7 +44,7 @@ public class WatchListService implements WatchListServiceInterface {
         // Return results
         log.info("Fetching all WatchLists");
         List<WatchList> lists = watchListRepository.findAllByOwner(userRepository.findById(ownerId).get());
-        if(lists.size() == 0) { throw new ResponseStatusException( HttpStatus.UNPROCESSABLE_ENTITY, "No elements to show" ); }
+        if(lists.size() == 0) { log.info("No elements to show" ); }
         return lists;
     }
 
