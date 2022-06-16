@@ -4,7 +4,7 @@ A working REST API, built by [Beatriz Perez](https://github.com/beatriz-perez) u
 
 * Trello board: [join WTW trello board](https://trello.com/invite/b/6vu1AH4D/6b9ddcb9b22acd1688b9fc1ebf9efcc7/whattowatch-final-project)
 * Swagger API documentation on: [swagger](http://localhost:5005/swagger-ui.html)
-* 
+
 ## API documentation
 
 ## 1. Description of the project
@@ -16,7 +16,7 @@ They can also follow other users and lists to keep track of their new discoverie
 
 Movies and series can be liked and marked as watched, which guives the app information to create rankings and help users find what's on trend today on the movies and series pages.
 
-## 2. User Stories(If available)
+## 2. User Stories
 
 
 ## 3. Setup
