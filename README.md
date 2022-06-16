@@ -34,7 +34,7 @@ Movies and series can be liked and marked as watched, which guives the app infor
 DB tables:
 ![db tables](./src/images/finalDBtables.png)
 
-Models:
+Models: <br/>
 ![mdels1](./src/images/models1.png)
 ![mdels2](./src/images/models2.png)
 ![mdels3](./src/images/models3.png)
