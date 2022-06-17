@@ -19,7 +19,7 @@ Movies and series can be liked and marked as watched, which guives the app infor
 ## 2. User Stories
 
 - Find user stories on my SPA repo, with the initial wireframes [here](https://github.com/Openbank-Java-Bootcamp/beatriz-perez-FinalProject-WhatToWatch-SPA)
-- Or see them in the BackLog of the Trello board [here](https://trello.com/invite/b/6vu1AH4D/6b9ddcb9b22acd1688b9fc1ebf9efcc7/whattowatch-final-project)
+- Or see them in the BackLog of the Trello board [here](https://trello.com/b/6vu1AH4D/whattowatch-final-project)
 
 ## 3. Setup
 
